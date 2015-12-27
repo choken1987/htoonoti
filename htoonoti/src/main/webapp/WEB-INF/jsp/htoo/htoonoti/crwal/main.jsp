@@ -14,7 +14,6 @@
 $(document.body).ready(function(){
 	(function() {
 		var fnCallback = function(data) {
-			debugger;
 /* 			
 			var _data = JSON.parse(data);
 			var builder = [];
@@ -24,20 +23,35 @@ $(document.body).ready(function(){
 			var _html = builder.join('');
 			$('#main').html(_html);
  */			
-			$('#main').html(data);
+			debugger;
+// 			$('#main').html(data);
+			$('#main').append(data);
 			
 		};
+		
+		var params = {
+				page: 0
+		};
+		
 		var settings = {
 			url: '/crwal/main.htoo',
 // 			dataType: 'json',
 			dataType: 'text',
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: {param1:1, param2:2},
+			data: params,
 // 			method: 'POST',
 			type: 'POST',
+			async: true,
 			success: fnCallback
 		};
-		$.ajax(settings);
+		
+		var len = 10;
+		for (var i = 0; i < len; i++) {
+			debugger;
+			$.ajax(settings);
+			params.page++;
+		}
+		
 	}());
 });
 </script>

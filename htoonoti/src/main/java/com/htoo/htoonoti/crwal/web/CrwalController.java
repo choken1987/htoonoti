@@ -1,8 +1,9 @@
 package com.htoo.htoonoti.crwal.web;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,9 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
 
 @Controller
 public class CrwalController {
@@ -54,19 +52,80 @@ public class CrwalController {
 		
 		try {
 			
-			Document document = Jsoup.connect("http://zetawiki.com/wiki/").get();
+/*			
+			Document document = Jsoup.connect("http://m.onoffmix.com/event").get();
 			logger.info("document : " + document.toString()); // TODO Delete
 			
-			Elements targetElement = document.select("#mw-content-text > div:nth-child(3)");
+//			Elements targetElement = document.select(".container");
+			Elements targetElement = document.select(".eventTopArea");
 			logger.info("targetElement : " + targetElement.toString()); // TODO Delete
 			
-			returnString = targetElement.text();
-			logger.info("returnString : " + returnString.toString()); // TODO Delete
-			
-			returnString = returnString.split(" ")[0];
+//			returnString = targetElement.text();
+			returnString = targetElement.html();
 			logger.info("returnString : " + returnString.toString()); // TODO Delete
 			
 //			rep.setCharacterEncoding("text/html;charset=UTF-8");
+*/			
+			// 변수들
+			StringBuffer stringBuffer = new StringBuffer();
+			stringBuffer.append("<hr />");
+			
+			String page = paramMap.get("page");
+			String eventNum = "";
+			Document eventDocument = null;
+			Elements infoElements = null;
+			
+			// 이벤트 리스트 페이지
+			// event 번호 구함
+			Document eventListDocument = Jsoup.connect("" + page + "&c=&sort=latest").get();
+			
+			Elements aEventList = eventListDocument.select("#content > article > div.container > ul > li > div.eventBottomArea > span.pin > a");
+			
+			// FIXME: 다수 이벤트 번호 가져와야 함; 12개
+//			eventNum = aEventList.attr("data-event");
+			
+			//
+			List<Object> eventList = new ArrayList<Object>();
+			for (Element element : aEventList) {
+				
+				Map<String, Object> eventMap = new HashMap<String, Object>();
+				Map<String, String> event = new HashMap<String, String>();
+				///////////////////////////////
+				
+				eventNum = element.attr("data-event");
+				
+				// event 상세 페이지
+				eventDocument = Jsoup.connect("" + eventNum).get();
+				
+//				infoElements = eventDocument.select(".eventInfo, .hostInfo");
+//				infoElements.select(".strGarbage").remove();
+//				stringBuffer.append(infoElements.html());
+				// 일단 정제하지 않고 뿌려주는 걸로..
+				infoElements = eventDocument.select(".eventView");
+				stringBuffer.append(infoElements.html());
+				
+				//
+				stringBuffer.append("<hr />");
+				
+				///////////////////////////////
+				eventMap.put(eventNum, event);
+				String[] targets = {
+						"eventIdx",
+						"eventNum",
+						"eventTimeSpan",
+						"eventLocation",
+						"eventContent",
+						"attend",
+						};
+				for (String target : targets) {
+					event.put(target, eventDocument.select("." + target).html());
+				}
+				
+				eventList.add(eventMap);
+				logger.info("eventMap : " + eventMap.toString()); // TODO Delete
+			}
+			
+			returnString = stringBuffer.toString();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
