@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="site" value="htoonoti || "></c:set>
-<c:set var="title" value="#{site}root"></c:set>
+<c:set var="title" value="${site}root"></c:set>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
