@@ -13,7 +13,7 @@
 <script type="text/javascript">
 $(document.body).ready(function(){
 	$('#content1').on('click', function(){
-		window.location.href = '/content1.htoo';
+		window.location.href = '/crwal/main.htoo';
 	});
 });
 </script>

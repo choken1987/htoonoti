@@ -12,6 +12,33 @@
 </style>
 <script type="text/javascript">
 $(document.body).ready(function(){
+	(function() {
+		var fnCallback = function(data) {
+			debugger;
+/* 			
+			var _data = JSON.parse(data);
+			var builder = [];
+			for(key in _data){
+				builder.push(key+':'+_data[key]+'<br/>');
+			}
+			var _html = builder.join('');
+			$('#main').html(_html);
+ */			
+			$('#main').html(data);
+			
+		};
+		var settings = {
+			url: '/crwal/main.htoo',
+// 			dataType: 'json',
+			dataType: 'text',
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			data: {param1:1, param2:2},
+// 			method: 'POST',
+			type: 'POST',
+			success: fnCallback
+		};
+		$.ajax(settings);
+	}());
 });
 </script>
 </head>
@@ -20,9 +47,9 @@ $(document.body).ready(function(){
 	<div class="contents">
 		<div class="container">
 
-			<div>
+			<div id="main">
 				<span>
-					content1 main
+					메인
 				</span>
 			</div>
 		
