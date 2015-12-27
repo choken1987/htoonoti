@@ -52,20 +52,6 @@ public class CrwalController {
 		
 		try {
 			
-/*			
-			Document document = Jsoup.connect("http://m.onoffmix.com/event").get();
-			logger.info("document : " + document.toString()); // TODO Delete
-			
-//			Elements targetElement = document.select(".container");
-			Elements targetElement = document.select(".eventTopArea");
-			logger.info("targetElement : " + targetElement.toString()); // TODO Delete
-			
-//			returnString = targetElement.text();
-			returnString = targetElement.html();
-			logger.info("returnString : " + returnString.toString()); // TODO Delete
-			
-//			rep.setCharacterEncoding("text/html;charset=UTF-8");
-*/			
 			// 변수들
 			StringBuffer stringBuffer = new StringBuffer();
 			stringBuffer.append("<hr />");
