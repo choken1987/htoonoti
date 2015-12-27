@@ -9,12 +9,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.htoo.htoonoti.common.service.IndexService;
-import com.htoo.htoonoti.common.service.impl.IndexServiceImpl;
 
 @Controller
 public class IndexController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(IndexServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
 
 	@Resource(name = "indexService")
 	private IndexService indexService;
